@@ -93,7 +93,7 @@ def rds_to_s3():
     username = 'rjbatista'
     password = '123azenbvd!'
     
-    #Fect all the data
+    #Fectch all the data
     conn = connect_to_db(host_name, dbname, port, username, password)
     curr = conn.cursor()  
     
@@ -102,7 +102,6 @@ def rds_to_s3():
     data=rows.to_csv(index=False)  
     
     #Store de data into S3 bucket
-    #s3 = boto3.client('s3',aws_access_key_id='AKIAT22H3R5CNPAJKQGA',aws_secret_access_key='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')
     bucket_name ='myawsbucketmamad'                                            #event["Records"][0]["s3"]["bucket"]["name"]
     s3_file_name ='data.csv'                                           #event["Records"][0]["s3"]["object"]["key"]
     object = s3.Object(bucket_name, s3_file_name) # Pas oublier ici de remplacer la clé parce que je ne la connais pas :)
