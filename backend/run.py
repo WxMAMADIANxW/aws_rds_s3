@@ -13,8 +13,8 @@ app = Flask(__name__)
 class s3:
     def __init__(self):
         self.s3 = boto3.client('s3',
-                                   aws_access_key_id='AKIAT22H3R5CNPAJKQGA',
-                                   aws_secret_access_key='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')
+                                   aws_access_key_id='XXXX',
+                                   aws_secret_access_key='XXXX')
 
 
     def read_data_from_s3(self):
@@ -110,4 +110,4 @@ def rds_to_s3():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=3000)
+    app.run(host='15.236.91.244', port=3000)
