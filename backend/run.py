@@ -33,7 +33,7 @@ class databse_mysql:
         try:
             conn = mysql.connector.connect(host=host_name, db=dbname, user=username, passwd=password, port=port)
 
-        except mysql.connector.OperationalError as e:
+        except mysql.connector.Error as e:
             raise e
         else:
             print('Connected!')
