@@ -1,0 +1,45 @@
+/*reset*/
+
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Zhi+Mang+Xing&display=swap');
+
+html,body{
+    font: 16px 'Open Sans','Zhi Mang Xing',sans-serif;
+    margin:0;
+}
+
+h1{
+    margin:0;
+    font-family: 'Zhi Mang Xing';
+    font-weight: 400;
+}
+h2,
+p,
+ol{
+    margin:0;
+    font-weight:300;
+}
+section>p {
+    line-height: 1.5rem;
+}
+
+/*Fin reset*/
+
+main {
+    color: rgb(219, 126, 19);
+    border-radius: 1em;
+    padding: 1em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) }
+h3 {
+    text-align: center;
+    margin-bottom: 16px;
+}
+button:hover{
+    color:rgb(255, 255, 255);
+    background-color: rgb(219, 126, 19);
+}
