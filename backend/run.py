@@ -57,7 +57,7 @@ class databse_mysql:
 
     def append_from_df_to_db(self,curr,df):
         for i, row in df.iterrows():
-            insert_into_table(curr, row['Nom'], row['Description'], row['Nombre_dheure']) 
+            databse_mysql.insert_into_table(curr, row['Nom'], row['Description'], row['Nombre_dheure']) 
 
 def connect_to_db(self,host_name, dbname, port, username, password):
         try:
