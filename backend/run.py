@@ -80,9 +80,10 @@ def s3_to_rds():
     data=s3.read_data_from_s3()
     conn = databse_mysql.connect_to_db(host_name, dbname, port, username, password)
     curr = conn.cursor() 
-    create_table(curr) 
-    databse_mysql.append_from_df_to_db(curr, new_vid_df)
+    databse_mysql.create_table(curr) 
+    databse_mysql.append_from_df_to_db(curr, data)
     conn.commit()
+    return render_template("tords.html")
 
 @app.route("/rds_to_s3")
 def rds_to_s3():
@@ -106,7 +107,7 @@ def rds_to_s3():
     s3_file_name ='data.csv'                                           #event["Records"][0]["s3"]["object"]["key"]
     object = s3.Object(bucket_name, s3_file_name) # Pas oublier ici de remplacer la clé parce que je ne la connais pas :)
     object.put(Body=data)
-
+    return render_template("tos3.html")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=3000)
