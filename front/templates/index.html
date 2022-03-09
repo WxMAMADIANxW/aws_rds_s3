@@ -52,30 +52,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script>
-        function toRDS() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("demo").innerHTML =
-            this.responseText;
-            }
-        };
-        xhttp.open("GET", "http://13.38.123.226:3000/s3_to_rds", true);
-        xhttp.send();
-        }
-        function toS3() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("demo").innerHTML =
-            this.responseText;
-            }
-        };
-        xhttp.open("GET", "http://13.38.123.226:3000/rds_to_s3", true);
-        xhttp.send();
-        }
-    </script>
 </head>
 <body>
     <main>
@@ -83,8 +59,8 @@
             <h2>File Transfert AWS</h2>
         </header>
         <section>
-            <button type="button" onclick=toRDS()>To RDS Database</button>
-            <button type="button" onclick=toS3()>To S3 bucket</button>
+            <button  onclick="window.location.href='http://13.38.117.219/s3_to_rds';">To RDS Database</button>
+            <button onclick="window.location.href='http://13.38.117.219/rds_to_s3';">To S3 bucket</button>
         </section>
     </main> 
 </body>

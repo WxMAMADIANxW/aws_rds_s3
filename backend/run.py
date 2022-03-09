@@ -70,7 +70,7 @@ def connect_to_db(self,host_name, dbname, port, username, password):
             print('Connected!')
             return conn
 
-@app.route("/s3_to_rds", methods= ['GET'])
+@app.route("/s3_to_rds", methods=['GET','POST'])
 def s3_to_rds():
     host_name = 'trainingxx.cm8hel5isvcq.eu-west-3.rds.amazonaws.com'
     dbname = 'trainingxx'
@@ -86,7 +86,7 @@ def s3_to_rds():
     conn.commit()
     return render_template("tords.html")
 
-@app.route("/rds_to_s3", methods= ['GET'])
+@app.route("/rds_to_s3", methods=['GET','POST'])
 def rds_to_s3():
     #Connect to de database 
     host_name = 'trainingxx.cm8hel5isvcq.eu-west-3.rds.amazonaws.com'
@@ -111,4 +111,4 @@ def rds_to_s3():
     return render_template("tos3.html")
 
 if __name__ == "__main__":
-    app.run(port=3000)
+    app.run(port=3000, host="0.0.0.0")
