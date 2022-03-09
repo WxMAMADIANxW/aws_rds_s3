@@ -4,12 +4,21 @@ from decimal import Decimal
 import json
 import boto3
 from boto3.dynamodb.conditions import Key
+from requests_html import HTMLSession
+
 app = Flask(__name__)
 
 
 @app.route("/")
 def welcome():
     return render_template("index.html")
+
+
+@app.route("/s3_to_rds", methods=['GET','POST'])
+def s3_to_rds():
+    session = HTMLSession()
+    response = session.get("http://13.38.117.219:3000/s3_to_rds")
+    return render_template(response.html)
 
 
 if __name__ == "__main__":
