@@ -7,6 +7,7 @@ import pandas as pd
 import psycopg2 as ps
 import pandas as pd 
 import mysql.connector
+from mysql.connector import errorcode
 
 
 
@@ -43,7 +44,7 @@ class databse_mysql:
             else:
                 print(err)
         else:
-            conn.close()
+            return conn
             
     def create_table(self,curr):
         create_table_command = ("""CREATE TABLE IF NOT EXISTS matieres (
@@ -77,7 +78,7 @@ def s3_to_rds():
     username = 'rjbatista'
     password = '123azenbvd!'
 
-    data=s.read_data_from_s3()
+    data=s3.read_data_from_s3()
     conn = database.connect_to_db(host_name, dbname, port, username, password)
     curr = conn.cursor() 
     database.create_table(curr) 
