@@ -33,6 +33,7 @@ class s3:
 class databse_mysql: 
     
     def connect_to_db(self,host_name, dbname, port, username, password):
+        conn 
         try:
             conn = mysql.connector.connect(host=host_name, db=dbname, user=username, passwd=password, port=port)
 
@@ -43,8 +44,8 @@ class databse_mysql:
                 print("Database does not exist")
             else:
                 print(err)
-        else:
-            return conn
+                
+        return conn
             
     def create_table(self,curr):
         create_table_command = ("""CREATE TABLE IF NOT EXISTS matieres (
