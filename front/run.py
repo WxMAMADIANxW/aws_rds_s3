@@ -21,5 +21,12 @@ def s3_to_rds():
     return render_template(response.html)
 
 
+@app.route("/rds_to_s3", methods=['GET','POST'])
+def rds_to_s3():
+    session = HTMLSession()
+    response = session.get("http://13.38.117.219:3000/rds_to_s3")
+    return render_template(response.html)
+
+
 if __name__ == "__main__":
     app.run(port=3000, host="0.0.0.0")
