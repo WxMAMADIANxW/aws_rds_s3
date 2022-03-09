@@ -1,4 +1,5 @@
 from crypt import methods
+from hashlib import new
 from flask import (Flask, request, render_template)
 import boto3 
 import psycopg2 as ps
@@ -34,11 +35,15 @@ class databse_mysql:
         try:
             conn = mysql.connector.connect(host=host_name, db=dbname, user=username, passwd=password, port=port)
 
-        except mysql.connector.Error as e:
-            raise e
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
         else:
-            print('Connected!')
-            return conn 
+            conn.close()
             
     def create_table(self,curr):
         create_table_command = ("""CREATE TABLE IF NOT EXISTS matieres (
@@ -58,37 +63,33 @@ class databse_mysql:
 
     def append_from_df_to_db(self,curr,df):
         for i, row in df.iterrows():
-            databse_mysql.insert_into_table(curr, row['Nom'], row['Description'], row['Nombre_dheure']) 
+            self.insert_into_table(curr, row['Nom'], row['Description'], row['Nombre_dheure']) 
 
-def connect_to_db(self,host_name, dbname, port, username, password):
-        try:
-            conn = mysql.connector.connect(host=host_name, db=dbname, user=username, passwd=password, port=port)
 
-        except ps.OperationalError as e:
-            raise e
-        else:
-            print('Connected!')
-            return conn
 
 @app.route("/s3_to_rds", methods=['GET','POST'])
 def s3_to_rds():
+    s = s3()
+    database = databse_mysql()
     host_name = 'trainingxx.cm8hel5isvcq.eu-west-3.rds.amazonaws.com'
     dbname = 'trainingxx'
     port = '3306'
     username = 'rjbatista'
     password = '123azenbvd!'
 
-    data=s3.read_data_from_s3()
-    conn = databse_mysql.connect_to_db(host_name, dbname, port, username, password)
+    data=s.read_data_from_s3()
+    conn = database.connect_to_db(host_name, dbname, port, username, password)
     curr = conn.cursor() 
-    databse_mysql.create_table(curr) 
-    databse_mysql.append_from_df_to_db(curr, data)
+    database.create_table(curr) 
+    database.append_from_df_to_db(curr, data)
     conn.commit()
     return render_template("tords.html")
 
 @app.route("/rds_to_s3", methods=['GET','POST'])
 def rds_to_s3():
+    
     #Connect to de database 
+    database = databse_mysql()
     host_name = 'trainingxx.cm8hel5isvcq.eu-west-3.rds.amazonaws.com'
     dbname = 'trainingxx'
     port = '3306'
@@ -96,7 +97,7 @@ def rds_to_s3():
     password = '123azenbvd!'
     
     #Fectch all the data
-    conn = connect_to_db(host_name, dbname, port, username, password)
+    conn = database.connect_to_db(host_name, dbname, port, username, password)
     curr = conn.cursor()  
     
     curr.execute("SELECT * from matiere") 
@@ -104,9 +105,10 @@ def rds_to_s3():
     data=rows.to_csv(index=False)  
     
     #Store de data into S3 bucket
+    s = s3()
     bucket_name ='myawsbucketmamad'                                            #event["Records"][0]["s3"]["bucket"]["name"]
     s3_file_name ='data.csv'                                           #event["Records"][0]["s3"]["object"]["key"]
-    object = s3.Object(bucket_name, s3_file_name) # Pas oublier ici de remplacer la clé parce que je ne la connais pas :)
+    object = s.Object(bucket_name, s3_file_name) # Pas oublier ici de remplacer la clé parce que je ne la connais pas :)
     object.put(Body=data)
     return render_template("tos3.html")
 
