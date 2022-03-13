@@ -19,7 +19,7 @@ def welcome():
 def s3_to_rds():
     session = HTMLSession()
     response = session.get("http://13.38.117.219:3000/s3_to_rds")
-    if (response==200):
+    if (response):
         return render_template("tords.html")
     return render_template("error.html")
     
@@ -30,7 +30,7 @@ def s3_to_rds():
 def rds_to_s3():
     session = HTMLSession()
     response = session.get("http://13.38.117.219:3000/rds_to_s3")
-    if (response==200):
+    if (response):
         return render_template("tos3.html")
     return render_template("error.html")
     

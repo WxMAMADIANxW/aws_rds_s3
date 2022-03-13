@@ -85,7 +85,7 @@ def s3_to_rds():
     database.create_table(curr) 
     database.append_from_df_to_db(curr, data)
     conn.commit()
-    return render_template("tords.html")
+    return data
 
 @app.route("/rds_to_s3", methods=['GET','POST'])
 def rds_to_s3():
@@ -112,7 +112,7 @@ def rds_to_s3():
     s3_file_name ='data.csv'                                           #event["Records"][0]["s3"]["object"]["key"]
     object = s.Object(bucket_name, s3_file_name) # Pas oublier ici de remplacer la clé parce que je ne la connais pas :)
     object.put(Body=data)
-    return render_template("tos3.html")
+    return object
 
 if __name__ == "__main__":
     app.run(port=3000, host="0.0.0.0")
